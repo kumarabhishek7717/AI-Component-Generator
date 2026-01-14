@@ -1,0 +1,93 @@
+import React from 'react'
+import Navbar from '../components/Navbar'
+import Select from 'react-select';
+
+const Home = () => {
+
+  const options = [
+    { value: 'html-css', label: 'HTML + CSS' },
+    { value: 'html-tailwind', label: 'HTML + Tailwind CSS' },
+    { value: 'html-bootstrap', label: 'HTML + Bootstrap' },
+    { value: 'html-css-js', label: 'HTML + CSS + JS' },
+    { value: 'html-tailwind-bootstrap', label: 'HTML + Tailwind + Bootstrap' },
+  ];
+
+
+  return (
+    <>
+      <Navbar />
+      <div className='flex items-center px-[100px] justify-between gap-[30px]'>
+        <div className="left w-[50%] h-[80vh] bg-[#141319] mt-5 p-[20px]">
+
+          <h3 className='text-[25px] font-semibold sp-text'>AI component generator</h3>
+          <p className='text-[gray] mt-2 text-[16px]'>Describe your component and let AI will code for you.</p>
+          <p className='text-[15px] font-[700] mt-4'>Framework</p>
+          <Select
+            className='mt-2'
+            options={options}
+            styles={{
+              control: (base, state) => ({
+                ...base,
+                backgroundColor: "#111",
+                borderColor: state.isFocused ? "#555" : "#333",
+                color: "#fff",
+                boxShadow: "none",
+                "&:hover": {
+                  borderColor: "#555",
+                },
+              }),
+
+              menu: (base) => ({
+                ...base,
+                backgroundColor: "#111",
+                border: "1px solid #333",
+              }),
+
+              option: (base, state) => ({
+                ...base,
+                backgroundColor: state.isSelected
+                  ? "#333"
+                  : state.isFocused
+                    ? "#222"
+                    : "#111",
+                color: "#fff",
+                cursor: "pointer",
+              }),
+
+              singleValue: (base) => ({
+                ...base,
+                color: "#fff",
+              }),
+
+              placeholder: (base) => ({
+                ...base,
+                color: "#777",
+              }),
+
+              input: (base) => ({
+                ...base,
+                color: "#fff",
+              }),
+
+              dropdownIndicator: (base, state) => ({
+                ...base,
+                color: state.isFocused ? "#fff" : "#777",
+                "&:hover": {
+                  color: "#fff",
+                },
+              }),
+
+              indicatorSeparator: () => ({
+                display: "none",
+              }),
+            }}
+          />
+          <p className='text-[15px] font-[700] mt-5'>Describe your component</p>
+          <textarea className='w-full min-h-[250px] rounded-xl bg-[#09090B] mt-3 p-[10px]' placeholder='Describe your component in detail and let ai will code for your component.'></textarea>
+        </div>
+        <div className="right w-[50%] h-[80vh] bg-[#141319]"></div>
+      </div>
+    </>
+  )
+}
+export default Home
