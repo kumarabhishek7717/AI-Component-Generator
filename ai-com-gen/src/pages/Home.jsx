@@ -4,6 +4,10 @@ import Select from 'react-select';
 import { BsStars } from "react-icons/bs";
 import { HiCode } from "react-icons/hi";
 import Editor from '@monaco-editor/react';
+import { IoCopy } from "react-icons/io5";
+import { PiExportBold } from "react-icons/pi";
+import { ImNewTab } from "react-icons/im";
+import { FiRefreshCw } from "react-icons/fi";
 
 const Home = () => {
 
@@ -107,14 +111,48 @@ const Home = () => {
                 </div>
               </> : <>
                 <div className="top bg-[#17171C] w-full h-[60px] flex items-center gap-[15px] px-[20px]">
-                  <div onClick={()=>{setTab(1)}} className={`btn w-[50%] p-[10px]  rounded-xl cursor-pointer transition-all ${tab === 1 ? "bg-[#333]" : ""}`}>Code</div>
-                   <div onClick={()=>{setTab(2)}} className={`btn w-[50%] p-[10px]  rounded-xl cursor-pointer transition-all ${tab === 2 ? "bg-[#333]" : ""}`}>Preview</div>
+
+                  <div onClick={() => { setTab(1) }} className={`btn w-[50%] p-[10px]  rounded-xl cursor-pointer transition-all ${tab === 1 ? "bg-[#333]" : ""}`}>Code</div>
+                  <div onClick={() => { setTab(2) }} className={`btn w-[50%] p-[10px]  rounded-xl cursor-pointer transition-all ${tab === 2 ? "bg-[#333]" : ""}`}>Preview</div>
+                </div>
+                <div className="top-2 bg-[#17171C] w-full h-[60px] flex items-center justify-between gap-[15px] px-[20px]">
+                  <div className="left">
+                    <p className='font-bold'>
+                      Code Editor
+                    </p>
+                  </div>
+                  <div className="right flex items-center gap-[10px]">
+                    {
+                      tab === 1 ?
+                        <>
+                          <button className="copy w-[40px] h-[40px] rounded-xl border-[1px] border-zinc-800 flex items-center justify-center transition-all hover:bg-[#333]"><IoCopy /></button>
+                          <button className="export w-[40px] h-[40px] rounded-xl border-[1px] border-zinc-800 flex items-center justify-center transition-all hover:bg-[#333]"><PiExportBold /></button>
+                        </>
+                        :
+                        <>
+                          <button className="copy w-[40px] h-[40px] rounded-xl border-[1px] border-zinc-800 flex items-center justify-center transition-all hover:bg-[#333]"><ImNewTab /></button>
+                          <button className="export w-[40px] h-[40px] rounded-xl border-[1px] border-zinc-800 flex items-center justify-center transition-all hover:bg-[#333]"><FiRefreshCw /></button>
+
+                        </>
+                    }
+
+
+                  </div>
 
                 </div>
-                <div className="editor">
-
+                <div className="editor h-full">
+                  {
+                    tab === 1 ?
+                      <>
+                        <Editor height="100%" theme='vs-dark' defaultLanguage="html" Value="" />;
+                      </> :
+                      <>
+                        <div className='preview w-full h-full bg-white text-black flex items-center justify-center'>
+                        </div>
+                      </>
+                  }
                 </div>
-                <Editor height="100%" theme='vs-dark' defaultLanguage="javascript" defaultValue="// some comment" />;
+
               </>
           }
         </div>
