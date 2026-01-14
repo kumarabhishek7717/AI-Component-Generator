@@ -1,6 +1,8 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
 import Select from 'react-select';
+import { BsStars } from "react-icons/bs";
+import { HiCode } from "react-icons/hi";
 
 const Home = () => {
 
@@ -17,7 +19,7 @@ const Home = () => {
     <>
       <Navbar />
       <div className='flex items-center px-[100px] justify-between gap-[30px]'>
-        <div className="left w-[50%] h-[80vh] bg-[#141319] mt-5 p-[20px]">
+        <div className="left w-[50%] h-[auto] py-[30px] rounded-xl bg-[#141319] mt-5 p-[20px]">
 
           <h3 className='text-[25px] font-semibold sp-text'>AI component generator</h3>
           <p className='text-[gray] mt-2 text-[16px]'>Describe your component and let AI will code for you.</p>
@@ -84,8 +86,17 @@ const Home = () => {
           />
           <p className='text-[15px] font-[700] mt-5'>Describe your component</p>
           <textarea className='w-full min-h-[250px] rounded-xl bg-[#09090B] mt-3 p-[10px]' placeholder='Describe your component in detail and let ai will code for your component.'></textarea>
+          <div className='flex items-center justify-between'>
+            <p className='text-[gray]'>Click on generate button to generate your code</p>
+          <button className='generate flex items-center p-[15px] rounded-lg border-0 bg-gradient-to-r from-purple-400  to-purple-600 mt-3 px-[20px] gap-[10px] transition-all hover:opacity-[.8]'><i><BsStars /></i>Generate</button>
         </div>
-        <div className="right w-[50%] h-[80vh] bg-[#141319]"></div>
+        </div>
+        <div className="right mt-2 w-[50%] h-[80vh] bg-[#141319] rounded-xl">
+          <div className='skeleton w-full h-full flex items-center flex-col justify-center'>
+            <div className="circle p-[20px] w-[70px] flex items-center justify-center text-[30px] h-[70px] rounded-[50%] bg-gradient-to-r from-purple-400 to-purple-600"><HiCode /></div>
+            <p className='text-[16px] text-[gray] mt-3'>Your component & code will appear here.</p>
+          </div>
+        </div>
       </div>
     </>
   )
