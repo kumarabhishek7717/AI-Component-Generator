@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Navbar from '../components/Navbar'
 import Select from 'react-select';
 import { BsStars } from "react-icons/bs";
 import { HiCode } from "react-icons/hi";
+import Editor from '@monaco-editor/react';
 
 const Home = () => {
 
@@ -13,6 +14,9 @@ const Home = () => {
     { value: 'html-css-js', label: 'HTML + CSS + JS' },
     { value: 'html-tailwind-bootstrap', label: 'HTML + Tailwind + Bootstrap' },
   ];
+
+  const [outputScreen, setOutputScreen] = useState(true);
+  const [tab, setTab] = useState(1)
 
 
   return (
@@ -88,14 +92,31 @@ const Home = () => {
           <textarea className='w-full min-h-[250px] rounded-xl bg-[#09090B] mt-3 p-[10px]' placeholder='Describe your component in detail and let ai will code for your component.'></textarea>
           <div className='flex items-center justify-between'>
             <p className='text-[gray]'>Click on generate button to generate your code</p>
-          <button className='generate flex items-center p-[15px] rounded-lg border-0 bg-gradient-to-r from-purple-400  to-purple-600 mt-3 px-[20px] gap-[10px] transition-all hover:opacity-[.8]'><i><BsStars /></i>Generate</button>
-        </div>
+            <button className='generate flex items-center p-[15px] rounded-lg border-0 bg-gradient-to-r from-purple-400  to-purple-600 mt-3 px-[20px] gap-[10px] transition-all hover:opacity-[.8]'><i><BsStars /></i>Generate</button>
+          </div>
         </div>
         <div className="right mt-2 w-[50%] h-[80vh] bg-[#141319] rounded-xl">
-          <div className='skeleton w-full h-full flex items-center flex-col justify-center'>
-            <div className="circle p-[20px] w-[70px] flex items-center justify-center text-[30px] h-[70px] rounded-[50%] bg-gradient-to-r from-purple-400 to-purple-600"><HiCode /></div>
-            <p className='text-[16px] text-[gray] mt-3'>Your component & code will appear here.</p>
-          </div>
+          {
+
+            outputScreen === false ?
+
+              <>
+                <div className='skeleton w-full h-full flex items-center flex-col justify-center'>
+                  <div className="circle p-[20px] w-[70px] flex items-center justify-center text-[30px] h-[70px] rounded-[50%] bg-gradient-to-r from-purple-400 to-purple-600"><HiCode /></div>
+                  <p className='text-[16px] text-[gray] mt-3'>Your component & code will appear here.</p>
+                </div>
+              </> : <>
+                <div className="top bg-[#17171C] w-full h-[60px] flex items-center gap-[15px] px-[20px]">
+                  <div onClick={()=>{setTab(1)}} className={`btn w-[50%] p-[10px]  rounded-xl cursor-pointer transition-all ${tab === 1 ? "bg-[#333]" : ""}`}>Code</div>
+                   <div onClick={()=>{setTab(2)}} className={`btn w-[50%] p-[10px]  rounded-xl cursor-pointer transition-all ${tab === 2 ? "bg-[#333]" : ""}`}>Preview</div>
+
+                </div>
+                <div className="editor">
+
+                </div>
+                <Editor height="100%" theme='vs-dark' defaultLanguage="javascript" defaultValue="// some comment" />;
+              </>
+          }
         </div>
       </div>
     </>
