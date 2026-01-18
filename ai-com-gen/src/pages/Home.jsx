@@ -34,12 +34,12 @@ const Home = () => {
   const [isNewTabOpen, setIsNewTabOpen] = useState(false);
 
   function extractCode(response) {
-    // Regex se triple backticks ke andar ka content nikal lo
+  
     const match = response.match(/```(?:\w+)?\n?([\s\s]*?)```/);
     return match ? match[1].trim() : response.trim();
   }
 
-  // The client gets the API key from the environment variable `GEMINI_API_KEY`.
+ 
  async function getResponse() {
   setLoading(true);
 

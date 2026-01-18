@@ -8,18 +8,18 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware
+
 app.use(cors());
 app.use(express.json());
 
-// Gemini AI client
+
 const ai = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY, // API key .env me rakho
+  apiKey: process.env.GEMINI_API_KEY, 
 });
 
-// API route for generating code
 app.post("/api/generate", async (req, res) => {
   try {
+    
     const { prompt, framework } = req.body;
 
     if (!prompt) {
@@ -43,7 +43,7 @@ Return ONLY code inside Markdown backticks.
   }
 });
 
-// Start server
+
 app.listen(PORT, () => {
   console.log(`Backend running on port ${PORT}`);
 });
