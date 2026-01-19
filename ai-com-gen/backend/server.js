@@ -11,17 +11,17 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-// ✅ ROOT TEST ROUTE
+
 app.get("/", (req, res) => {
   res.send("AI Component Generator Backend is Live 🚀");
 });
 
-// ✅ Gemini AI init
+
 const ai = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY,
 });
 
-// ✅ MAIN API ROUTE
+
 app.post("/api/generate", async (req, res) => {
   try {
     const { prompt, framework } = req.body;
@@ -48,9 +48,8 @@ Return ONLY code inside Markdown backticks.
     console.error(error);
     res.status(500).json({ error: "AI generation failed" });
   }
-});
-
-// ✅ START SERVER (ONLY ONCE)
+}
+);
 app.listen(PORT, () => {
   console.log(`Backend running on port ${PORT}`);
 });
