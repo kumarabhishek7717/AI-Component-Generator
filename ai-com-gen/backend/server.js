@@ -1,3 +1,4 @@
+// server.js
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
@@ -17,18 +18,12 @@ app.get("/", (req, res) => {
 });
 
 
-const ai = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY,
-});
-
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 app.post("/api/generate", async (req, res) => {
   try {
     const { prompt, framework } = req.body;
-
-    if (!prompt) {
-      return res.status(400).json({ error: "Prompt is required" });
-    }
+    if (!prompt) return res.status(400).json({ error: "Prompt is required" });
 
     const response = await ai.models.generateContent({
       model: "gemini-3-flash-preview",
@@ -44,12 +39,10 @@ Return ONLY code inside Markdown backticks.
     });
 
     res.json({ code: response.text });
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    console.error("AI generation error:", err);
     res.status(500).json({ error: "AI generation failed" });
   }
-}
-);
-app.listen(PORT, () => {
-  console.log(`Backend running on port ${PORT}`);
 });
+
+app.listen(PORT, () => console.log(`Backend running on port ${PORT}`));
