@@ -5,19 +5,16 @@ import { RiSettings3Fill } from "react-icons/ri";
 
 const Navbar = () => {
   return (
-    <>
-    <div className='nav flex items-center justify-between px-[100px] h-[90px] border-b-[1px] border-gray-800'>
-     <div className='logo'>
-       <h3 className='text-[25px] font-[700] sp-text'>GenUI</h3>
-     </div>
-     <div className='icons flex items-center gap-[15px]'>
-        <div className="icon "><HiSun /></div>
-        <div className='icon'><FaUser /></div>
-        <div className='icon'><RiSettings3Fill /></div>
-
-     </div>
+    <div className="nav flex flex-col sm:flex-row items-center justify-between px-5 sm:px-24 py-4 border-b border-gray-800">
+      <div className='logo'>
+        <h3 className='text-2xl sm:text-3xl font-bold sp-text'>GenUI</h3>
+      </div>
+      <div className='icons flex mt-2 sm:mt-0 gap-4'>
+        <div className="icon cursor-pointer hover:text-yellow-400"><HiSun /></div>
+        <div className="icon cursor-pointer hover:text-yellow-400"><FaUser /></div>
+        <div className="icon cursor-pointer hover:text-yellow-400"><RiSettings3Fill /></div>
+      </div>
     </div>
-     </>
   )
 }
 

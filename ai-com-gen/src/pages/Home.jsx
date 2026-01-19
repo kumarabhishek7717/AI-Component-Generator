@@ -4,7 +4,7 @@ import Select from "react-select";
 import Editor from "@monaco-editor/react";
 import { BsStars } from "react-icons/bs";
 import { HiCode } from "react-icons/hi";
-import { IoCopy, IoCloseSharp } from "react-icons/io5";
+import { IoCopy } from "react-icons/io5";
 import { PiExportBold } from "react-icons/pi";
 import { ImNewTab } from "react-icons/im";
 import { FiRefreshCw } from "react-icons/fi";
@@ -52,6 +52,7 @@ const Home = () => {
       const data = await res.json();
       if (!res.ok) {
         toast.error(data.error || "Something went wrong!");
+        setLoading(false);
         return;
       }
 
@@ -93,59 +94,48 @@ const Home = () => {
   return (
     <>
       <Navbar />
-      <div className="flex items-center px-[100px] justify-between gap-[30px]">
+      <div className="flex flex-col lg:flex-row px-5 lg:px-24 gap-6">
         
-        <div className="w-[50%] py-[30px] rounded-xl bg-[#141319] mt-5 p-[20px]">
-          <h3 className="text-[25px] font-semibold sp-text">AI Component Generator</h3>
+        <div className="w-full lg:w-1/2 py-5 rounded-xl bg-[#141319] p-5">
+          <h3 className="text-2xl sm:text-3xl font-semibold sp-text">AI Component Generator</h3>
           <p className="text-gray-400 mt-2 text-[16px]">
             Describe your component and let AI code it for you.
           </p>
 
           <p className="text-[15px] font-bold mt-4">Framework</p>
           <Select
-            className="mt-2"
+            className="mt-2 w-full"
             options={options}
-            defaultValue={options[0]}
+            value={options.find(o => o.value === frameWork)}
             onChange={(e) => setFrameWork(e.value)}
             styles={{
-              control: (base) => ({
-                ...base,
-                backgroundColor: "#111",
-                borderColor: "#333",
-                color: "#fff",
-                boxShadow: "none",
-              }),
+              control: (base) => ({ ...base, backgroundColor: "#111", borderColor: "#333", color: "#fff", boxShadow: "none" }),
               menu: (base) => ({ ...base, backgroundColor: "#111", border: "1px solid #333" }),
-              option: (base, state) => ({
-                ...base,
-                backgroundColor: state.isSelected
-                  ? "#333"
-                  : state.isFocused
-                  ? "#222"
-                  : "#111",
-                color: "#fff",
-              }),
+              option: (base, state) => ({ ...base, backgroundColor: state.isSelected ? "#333" : state.isFocused ? "#222" : "#111", color: "#fff" }),
               singleValue: (base) => ({ ...base, color: "#fff" }),
               placeholder: (base) => ({ ...base, color: "#777" }),
               input: (base) => ({ ...base, color: "#fff" }),
               dropdownIndicator: (base) => ({ ...base, color: "#fff" }),
               indicatorSeparator: () => ({ display: "none" }),
             }}
+            isDisabled={loading}
           />
 
           <p className="text-[15px] font-bold mt-5">Describe your component</p>
           <textarea
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
-            className="w-full min-h-[250px] rounded-xl bg-[#09090B] mt-3 p-[10px]"
+            className="w-full min-h-[200px] sm:min-h-[250px] md:min-h-[300px] rounded-xl bg-[#09090B] mt-3 p-3"
             placeholder="Describe your component in detail and let AI code it."
+            disabled={loading}
           />
 
-          <div className="flex items-center justify-between mt-3">
+          <div className="flex flex-col sm:flex-row items-center justify-between mt-3 gap-3">
             <p className="text-gray-400">Click Generate to create your code</p>
             <button
               onClick={getResponse}
-              className="flex items-center p-[15px] rounded-lg bg-gradient-to-r from-purple-400 to-purple-600 gap-[10px] hover:opacity-80 transition-all"
+              className="flex items-center justify-center p-3 sm:p-4 rounded-lg bg-gradient-to-r from-purple-400 to-purple-600 gap-2 hover:opacity-80 transition-all"
+              disabled={loading}
             >
               {loading ? <ClipLoader color="white" size={20} /> : <BsStars />}
               Generate
@@ -153,8 +143,8 @@ const Home = () => {
           </div>
         </div>
 
-       
-        <div className="relative w-[50%] h-[80vh] bg-[#141319] rounded-xl mt-2">
+        
+        <div className="relative w-full lg:w-1/2 h-[60vh] lg:h-[80vh] bg-[#141319] rounded-xl mt-2">
           {!outputScreen ? (
             <div className="flex flex-col items-center justify-center w-full h-full">
               <div className="w-[70px] h-[70px] flex items-center justify-center rounded-full bg-gradient-to-r from-purple-400 to-purple-600 text-[30px]">
@@ -166,67 +156,36 @@ const Home = () => {
             </div>
           ) : (
             <>
-             
-              <div className="flex w-full h-[60px] bg-[#17171C] gap-[15px] px-[20px] items-center">
-                <div
-                  onClick={() => setTab(1)}
-                  className={`w-[50%] p-[10px] rounded-xl cursor-pointer ${
-                    tab === 1 ? "bg-[#333]" : ""
-                  }`}
-                >
-                  Code
-                </div>
-                <div
-                  onClick={() => setTab(2)}
-                  className={`w-[50%] p-[10px] rounded-xl cursor-pointer ${
-                    tab === 2 ? "bg-[#333]" : ""
-                  }`}
-                >
-                  Preview
-                </div>
+          
+              <div className="flex flex-wrap w-full h-[60px] bg-[#17171C] gap-2 px-4 items-center">
+                <div onClick={() => setTab(1)} className={`flex-1 p-2 rounded-xl cursor-pointer text-center ${tab === 1 ? "bg-[#333]" : ""}`}>Code</div>
+                <div onClick={() => setTab(2)} className={`flex-1 p-2 rounded-xl cursor-pointer text-center ${tab === 2 ? "bg-[#333]" : ""}`}>Preview</div>
               </div>
 
-            
-              <div className="flex justify-between items-center h-[60px] bg-[#17171C] px-[20px]">
+             
+              <div className="flex flex-wrap justify-between items-center h-[60px] bg-[#17171C] px-4">
                 <p className="font-bold">Code Editor</p>
-                <div className="flex gap-[10px]">
+                <div className="flex flex-wrap gap-2">
                   {tab === 1 ? (
                     <>
-                      <button
-                        className="w-[40px] h-[40px] rounded-xl border flex items-center justify-center hover:bg-[#333]"
-                        onClick={copyCode}
-                      >
-                        <IoCopy />
-                      </button>
-                      <button
-                        className="w-[40px] h-[40px] rounded-xl border flex items-center justify-center hover:bg-[#333]"
-                        onClick={downloadFile}
-                      >
-                        <PiExportBold />
-                      </button>
+                      <button className="w-[40px] h-[40px] rounded-xl border flex items-center justify-center hover:bg-[#333]" onClick={copyCode}><IoCopy /></button>
+                      <button className="w-[40px] h-[40px] rounded-xl border flex items-center justify-center hover:bg-[#333]" onClick={downloadFile}><PiExportBold /></button>
                     </>
                   ) : (
                     <>
-                      <button
-                        className="w-[40px] h-[40px] rounded-xl border flex items-center justify-center hover:bg-[#333]"
-                        onClick={openNewTab}
-                      >
-                        <ImNewTab />
-                      </button>
-                      <button className="w-[40px] h-[40px] rounded-xl border flex items-center justify-center hover:bg-[#333]">
-                        <FiRefreshCw />
-                      </button>
+                      <button className="w-[40px] h-[40px] rounded-xl border flex items-center justify-center hover:bg-[#333]" onClick={openNewTab}><ImNewTab /></button>
+                      <button className="w-[40px] h-[40px] rounded-xl border flex items-center justify-center hover:bg-[#333]"><FiRefreshCw /></button>
                     </>
                   )}
                 </div>
               </div>
 
-            
-              <div className="h-full">
+             
+              <div className="h-full overflow-auto">
                 {tab === 1 ? (
-                  <Editor value={code} height="100%" theme="vs-dark" defaultLanguage="html" />
+                  <Editor value={code} height="100%" width="100%" theme="vs-dark" defaultLanguage="html" />
                 ) : (
-                  <iframe srcDoc={code} className="w-full h-full" />
+                  <iframe srcDoc={code} className="w-full h-full" sandbox="allow-scripts allow-same-origin" />
                 )}
               </div>
             </>
