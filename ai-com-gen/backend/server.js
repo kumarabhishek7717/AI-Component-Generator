@@ -8,18 +8,22 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-
 app.use(cors());
 app.use(express.json());
 
-
-const ai = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY, 
+// ✅ ROOT TEST ROUTE
+app.get("/", (req, res) => {
+  res.send("AI Component Generator Backend is Live 🚀");
 });
 
+// ✅ Gemini AI init
+const ai = new GoogleGenAI({
+  apiKey: process.env.GEMINI_API_KEY,
+});
+
+// ✅ MAIN API ROUTE
 app.post("/api/generate", async (req, res) => {
   try {
-    
     const { prompt, framework } = req.body;
 
     if (!prompt) {
@@ -29,9 +33,12 @@ app.post("/api/generate", async (req, res) => {
     const response = await ai.models.generateContent({
       model: "gemini-3-flash-preview",
       contents: `
-You are an expert web developer. Generate a responsive UI component.
+You are an expert web developer.
+Generate a responsive UI component.
+
 Prompt: ${prompt}
 Framework: ${framework}
+
 Return ONLY code inside Markdown backticks.
       `,
     });
@@ -43,7 +50,7 @@ Return ONLY code inside Markdown backticks.
   }
 });
 
-
+// ✅ START SERVER (ONLY ONCE)
 app.listen(PORT, () => {
   console.log(`Backend running on port ${PORT}`);
 });
